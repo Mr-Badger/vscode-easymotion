@@ -214,11 +214,8 @@ function findCandidatePositions(editor: vscode.TextEditor, context: ActiveComman
             }
         }
 
-        // Tuned these keys by hands based on an American English keyboard.
-        // This is a good candidate for configuration so that we can better
-        // support other keyboard layouts.
-        const singleCharacterSet = 'fjrudkeislwoaqghtyp';
-        const doubleCharacterSet = 'vncmxzb,;\'[*+-';
+        const singleCharacterSet = config.SingleCharacterSet;
+        const doubleCharacterSet = config.DoubleCharacterSet;
 
         const selection = editor.selection;
         const sorted = positions.sort((a, b)=>
@@ -379,18 +376,26 @@ export class Configuration
     constructor(unfocused: vscode.TextEditorDecorationType, 
         decoration: vscode.TextEditorDecorationType, 
         allowJumpToWordlessLine: boolean,
-        styles: StylesConfiguration)
+        styles: StylesConfiguration,
+        singleCharacterSet: string,
+        doubleCharacterSet: string)
     {
         this.UnfocusedDecoration = unfocused;
         this.Decoration = decoration;
         this.AllowJumpingToWordlessLine = allowJumpToWordlessLine;
         this.Styles = styles;
+
+        const dedupe = (s: string) => [...new Set(s)].join('');
+        this.SingleCharacterSet = dedupe(singleCharacterSet.toLowerCase());
+        this.DoubleCharacterSet = dedupe(doubleCharacterSet.toLowerCase());
     }
 
     UnfocusedDecoration: vscode.TextEditorDecorationType;
     Decoration: vscode.TextEditorDecorationType;
     AllowJumpingToWordlessLine: boolean;
     Styles: StylesConfiguration;
+    SingleCharacterSet: string;
+    DoubleCharacterSet: string;
 }
 
 export class ActiveCommandContext

@@ -27,7 +27,9 @@ export function activate(context: vscode.ExtensionContext)
         unfocusedTextDecoration,
         textDecoration,
         vsConfigOptions.get<boolean>('allowJumpingToWordlessLines', true),
-        vsConfigOptions.get<StylesConfiguration>('styles', DEFAULT_STYLES)
+        vsConfigOptions.get<StylesConfiguration>('styles', DEFAULT_STYLES),
+        vsConfigOptions.get<string>('singleCharacterSet', 'fjrudkeislwoaqghtyp'),
+        vsConfigOptions.get<string>('doubleCharacterSet', 'vncmxzb,;\'[*+-')
     );
     
     let commandContext : ActiveCommandContext | null = null;

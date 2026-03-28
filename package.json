@@ -86,6 +86,16 @@
 					"default": true,
 					"description": "When enabled, lines that do not contain any words will include a jump point at the end of the line"
 				},
+				"vscode-easymotion.singleCharacterSet": {
+					"type": "string",
+					"default": "fjrudkeislwoaqghtyp",
+					"description": "Characters used for single-key jump labels. Order matters, earlier characters are assigned to closer positions."
+				},
+				"vscode-easymotion.doubleCharacterSet": {
+					"type": "string",
+					"default": "vncmxzb,;'[*+-",
+					"description": "Characters used as double-key jump labels. Used when single-key labels are exhausted."
+				},
 				"vscode-easymotion.styles": {
 					"type": "object",
 					"title": "Decoration Styles",
