@@ -120,7 +120,7 @@ function findCandidatePositions(editor: vscode.TextEditor, context: ActiveComman
                         // case SearchMode.WordEnd:
                         {
                             console.log(`searching for words in token \`${line.text.substring(tokenStart, lineCursor)}\``);
-                            let tempPositions: Position[] = [];
+                            const tempPositions: Position[] = [];
                             if (context.searchMode === SearchMode.All)
                             {
                                 {
@@ -221,7 +221,7 @@ function findCandidatePositions(editor: vscode.TextEditor, context: ActiveComman
         const doubleCharacterSet = 'vncmxzb,;\'[*+-';
 
         const selection = editor.selection;
-        const sorted = positions.sort((a, b)=>
+        positions.sort((a, b)=>
         {
             if (a.line === b.line)
             {

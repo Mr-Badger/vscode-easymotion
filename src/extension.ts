@@ -131,7 +131,7 @@ export function activate(context: vscode.ExtensionContext)
         vscode.commands.executeCommand('default:type', args);
     }));
     
-    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(event => 
+    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(() => 
     {
         exitJump();
     }));
