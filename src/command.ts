@@ -1,3 +1,4 @@
+import { performance } from 'perf_hooks';
 import * as vscode from 'vscode';
 
 export enum SearchMode
@@ -63,7 +64,7 @@ function isWordChangeBetweenCharacters(c1: number, c2: number)
 
 function findCandidatePositions(editor: vscode.TextEditor, context: ActiveCommandContext, config: Configuration)
 {
-    const start = new Date();
+    const start = performance.now();
     const positions : Position[] = [];
     try
     {
@@ -265,7 +266,8 @@ function findCandidatePositions(editor: vscode.TextEditor, context: ActiveComman
     }
     finally
     {
-        console.log(`${(new Date().getTime() - start.getTime()) / 1000} seconds to generate candidate positions, ${positions.length} found`);
+        const time = performance.now() - start;
+        console.log(`${time.toFixed(3)} ms to generate candidate positions, ${positions.length} found`);
     }
 }
 
