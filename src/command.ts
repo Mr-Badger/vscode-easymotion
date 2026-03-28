@@ -352,7 +352,7 @@ type DecorationStyles = {
 };
 
 export type StylesConfiguration = DecorationStyles & {
-    [color in "dark" | "light"]: DecorationStyles;
+    [color in 'dark' | 'light']: DecorationStyles;
 };
 
 export const DEFAULT_STYLES: StylesConfiguration = {
