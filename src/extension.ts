@@ -31,16 +31,36 @@ export function activate(context: vscode.ExtensionContext)
     );
     
     let commandContext : ActiveCommandContext | null = null;
+    
+    const statusBarItem = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 1_000);
+    context.subscriptions.push(statusBarItem);
+
+    const updateStatusBar = (commandContext: ActiveCommandContext | null) =>
+    {
+        if (commandContext)
+        {
+            statusBarItem.text = `EasyMotion: ${SearchMode[commandContext.searchMode]}`;
+            statusBarItem.show();
+        }
+        else
+        {
+            statusBarItem.hide();
+        }
+    };
 
     const startJump = async (editor: vscode.TextEditor, context: ActiveCommandContext)=>
     {
+        context.searchModeChanged = () => updateStatusBar(context!);
+        
         if (activePromise) return;
 
+        updateStatusBar(context);
         vscode.commands.executeCommand('setContext', 'vscodeEasyMotionJumping', true);
         activePromise = processCommand(editor, config, context);
         await activePromise;
         activePromise = null;
         commandContext = null;
+        updateStatusBar(null);
         vscode.commands.executeCommand('setContext', 'vscodeEasyMotionJumping', false);
     };
 
@@ -62,6 +82,7 @@ export function activate(context: vscode.ExtensionContext)
 
         activePromise = null;
         commandContext = null;
+        updateStatusBar(null);
     };
 
     // Jump to Word Command

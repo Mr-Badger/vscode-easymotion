@@ -395,6 +395,23 @@ export class Configuration
 
 export class ActiveCommandContext
 {
+    private _searchMode = SearchMode.TokenStart;
+    searchModeChanged?: (mode: SearchMode) => void;
+
+    get searchMode(): SearchMode
+    {
+        return this._searchMode;
+    }
+
+    set searchMode(value: SearchMode)
+    {
+        this._searchMode = value;
+        if (this.searchModeChanged)
+        {
+            this.searchModeChanged(value);
+        }
+    }
+
     cancel() 
     {
         if (this.keyPromiseResolver)
@@ -425,7 +442,6 @@ export class ActiveCommandContext
     // Making this comment ridiculous so I don't miss it later. // filterToggleKey = 'f';
 
     filter = '';
-    searchMode = SearchMode.TokenStart;
     keyPromiseResolver: ((pressed: string | number | null)=>void) | null = null;
     keyMelody = '';
 }
