@@ -42,7 +42,7 @@ function isCharLowerAlpha(c: number)
 function isCharAlpha(c: number)
 {
     const ch = String.fromCodePoint(c);
-    return /^\p{Script=Latin}$/u.test(ch) && /^\p{Letter}$/u.test(ch);
+    return ch.toLowerCase() !== ch.toUpperCase();
 }
 
 function isCharUnderscore(c: number)
