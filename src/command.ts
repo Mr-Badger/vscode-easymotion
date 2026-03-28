@@ -29,17 +29,20 @@ function isCharNumber(c: number)
 
 function isCharUpperAlpha(c: number)
 {
-    return c >= 65 && c <= 90;
+    const ch = String.fromCodePoint(c);
+    return isCharAlpha(c) && ch === ch.toUpperCase();
 }
 
 function isCharLowerAlpha(c: number)
 {
-    return c >= 97 && c <= 122;
+    const ch = String.fromCodePoint(c);
+    return isCharAlpha(c) && ch === ch.toLowerCase();
 }
 
 function isCharAlpha(c: number)
 {
-    return isCharUpperAlpha(c) || isCharLowerAlpha(c);
+    const ch = String.fromCodePoint(c);
+    return /^\p{Script=Latin}$/u.test(ch) && /^\p{Letter}$/u.test(ch);
 }
 
 function isCharUnderscore(c: number)
