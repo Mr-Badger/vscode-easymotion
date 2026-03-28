@@ -219,6 +219,7 @@ function findCandidatePositions(editor: vscode.TextEditor, context: ActiveComman
         // support other keyboard layouts.
         const singleCharacterSet = 'fjrudkeislwoaqghtyp';
         const doubleCharacterSet = 'vncmxzb,;\'[*+-';
+        const allCharacterSet = singleCharacterSet + doubleCharacterSet;
 
         const selection = editor.selection;
         const sorted = positions.sort((a, b)=>
@@ -241,19 +242,27 @@ function findCandidatePositions(editor: vscode.TextEditor, context: ActiveComman
 
         let singleCharIndex = 0;
         let doubleCharIndex = -1;
-
+        let lastCharacterSet = singleCharacterSet;
+        let singleCharacterSetExhausted = false;
+        
         for(let i = 0; (i < positions.length) && (doubleCharIndex < doubleCharacterSet.length); ++i) 
         {
+            if (doubleCharIndex === 0 && !singleCharacterSetExhausted)
+            {
+                lastCharacterSet = allCharacterSet;
+                singleCharacterSetExhausted = true;
+            }
+
             let combo = '';
             if (doubleCharIndex >= 0)
             {
                 combo += doubleCharacterSet.charAt(doubleCharIndex);
             }
 
-            combo += singleCharacterSet.charAt(singleCharIndex);
+            combo += lastCharacterSet.charAt(singleCharIndex);
 
             ++singleCharIndex;
-            if (singleCharIndex >= singleCharacterSet.length)
+            if (singleCharIndex >= lastCharacterSet.length)
             {
                 singleCharIndex = 0;
                 ++doubleCharIndex;
