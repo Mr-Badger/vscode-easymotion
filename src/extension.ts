@@ -19,17 +19,22 @@ export function activate(context: vscode.ExtensionContext)
         opacity: '0'
     });
 
+    const loadConfig = () =>
+    {
+        const vsConfigOptions = vscode.workspace.getConfiguration('vscode-easymotion');
+        return new Configuration
+        (
+            unfocusedTextDecoration,
+            textDecoration,
+            vsConfigOptions.get<boolean>('allowJumpingToWordlessLines', true),
+            vsConfigOptions.get<StylesConfiguration>('styles', DEFAULT_STYLES)
+        );
+    }
+
     let activePromise : Promise<void> | null = null;
 
-    const vsConfigOptions = vscode.workspace.getConfiguration('vscode-easymotion');
-    const config = new Configuration
-    (
-        unfocusedTextDecoration,
-        textDecoration,
-        vsConfigOptions.get<boolean>('allowJumpingToWordlessLines', true),
-        vsConfigOptions.get<StylesConfiguration>('styles', DEFAULT_STYLES)
-    );
-    
+    let config: Configuration = loadConfig();
+
     let commandContext : ActiveCommandContext | null = null;
 
     const startJump = async (editor: vscode.TextEditor, context: ActiveCommandContext)=>
@@ -63,6 +68,14 @@ export function activate(context: vscode.ExtensionContext)
         activePromise = null;
         commandContext = null;
     };
+
+    vscode.workspace.onDidChangeConfiguration(event =>
+    {
+        if (event.affectsConfiguration('vscode-easymotion'))
+        {
+            config = loadConfig();
+        }
+    });
 
     // Jump to Word Command
     context.subscriptions.push(vscode.commands.registerCommand('vscode-easymotion.jumpToWord', async () => 
