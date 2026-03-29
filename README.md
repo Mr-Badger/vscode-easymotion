@@ -34,3 +34,5 @@ Aside from the configurable keybindings, this extension exposes the following co
 |Option|Default Value|Description|
 |-|-|-|
 |vscode-easymotion.allowJumpingToWordlessLines|true|When enabled, lines that do not contain any words will include a jump point at the end of the line
+|vscode-easymotion.singleCharacterSet|fjrudkeislwoaqghtyp|Characters used for single-key jump labels. Earlier characters are assigned to closer positions
+|vscode-easymotion.doubleCharacterSet|vncmxzb,;\'[*+-|Characters used as double-key jump labels. Used when single-key labels are exhausted. Earlier characters are assigned to closer positions
